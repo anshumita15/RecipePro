@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecipePro – What's in your kitchen?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-page">
+  <nav class="navbar">
+    <div class="nav-logo"><span>🍳</span><span>RecipePro</span></div>
+    <div class="nav-right">
+      <span class="nav-user" id="nav-username"></span>
+      <button class="btn-ghost" onclick="signOut()">Sign Out</button>
+    </div>
+  </nav>
+  <main class="main-container">
+    <div class="hero-text">
+      <h1>What's in your kitchen?</h1>
+      <p>Add your ingredients and we'll craft the perfect recipe.</p>
+    </div>
+    <div class="search-section">
+      <div class="search-bar-wrap">
+        <div class="search-bar">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="ingredient-input" placeholder="Add ingredient (e.g. Chicken, Spinach, Garlic)" autocomplete="off" oninput="handleIngredientInput()" onkeydown="handleIngredientKey(event)" />
+          <div class="autocomplete-dropdown" id="autocomplete-dropdown"></div>
+        </div>
+        <button class="btn-add" onclick="addIngredient()" title="Add ingredient">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+      <div class="ingredients-tags" id="ingredients-tags"></div>
+    </div>
+    <div class="diet-section">
+      <p class="section-label">Dietary preference</p>
+      <div class="diet-grid">
+        <button class="diet-btn active" data-diet="none" onclick="selectDiet(this)">None</button>
+        <button class="diet-btn" data-diet="high-protein" onclick="selectDiet(this)">High protein</button>
+        <button class="diet-btn" data-diet="vegan" onclick="selectDiet(this)">Vegan</button>
+        <button class="diet-btn" data-diet="keto" onclick="selectDiet(this)">Keto</button>
+        <button class="diet-btn" data-diet="low-carb" onclick="selectDiet(this)">Low carb</button>
+        <button class="diet-btn" data-diet="paleo" onclick="selectDiet(this)">Paleo</button>
+      </div>
+    </div>
+    <button class="btn-generate" id="generate-btn" onclick="generateRecipes()">
+      <span id="generate-label">Generate Recipes →</span>
+      <span id="generate-spinner" class="spinner hidden"></span>
+    </button>
+    <p class="api-hint">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Need different API keys? <a href="#" onclick="openApiModal()">Configure here</a>
+    </p>
+  </main>
+  <div class="modal-overlay hidden" id="api-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>⚙️ API Configuration</h3>
+        <button class="modal-close" onclick="closeApiModal()">✕</button>
+      </div>
+      <div class="form-group">
+        <label>Gemini API Key</label>
+        <input type="password" id="gemini-key" placeholder="AIza..." />
+        <small>Get yours at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></small>
+      </div>
+      <div class="form-group">
+        <label>ElevenLabs API Key</label>
+        <input type="password" id="elevenlabs-key" placeholder="sk_..." />
+        <small>Get yours at <a href="https://elevenlabs.io" target="_blank">elevenlabs.io</a></small>
+      </div>
+      <button class="btn-primary" onclick="saveApiKeys()">Save Keys</button>
+    </div>
+  </div>
+  <div class="recipes-overlay hidden" id="recipes-overlay">
+    <div class="recipes-page">
+      <div class="recipes-header">
+        <button class="btn-back" onclick="closeRecipes()">← Back</button>
+        <h2>Your Recipes</h2>
+        <span class="recipe-count" id="recipe-count"></span>
+      </div>
+      <div class="recipes-grid" id="recipes-grid"></div>
+    </div>
+  </div>
+  <script src="js/ingredients.js"></script>
+  <script src="js/gemini.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
