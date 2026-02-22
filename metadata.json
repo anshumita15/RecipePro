@@ -1,0 +1,5 @@
+{
+  "name": "RecipePro",
+  "description": "An interactive AI-powered recipe instructor with voice control and dietary goal optimization.",
+  "requestFramePermissions": ["microphone"]
+}
